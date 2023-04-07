@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+
+  <title>Dashboard</title>
+
+  <link rel="canonical" href="https://blog.appseed.us/bootstrap-for-beginners-with-examples/" />
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Bootstrap CSS End -->
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!-- Main CSS End -->
+    <!-- Bootstrap Icons Start -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- Bootstrap Icons End -->
+    <link rel="stylesheet" href="static/css/dark-mode.css">
+
+<style>:root 
+    {
+        --dark-body: #4d4c5a;
+        --dark-main: #141529;
+        --dark-second: #79788c;
+        --dark-hover: #323048;
+        --dark-text: #f8fbff;
+        --light-body: #f3f8fe;
+        --light-main: #fdfdfd;
+        --light-second: #c3c2c8;
+        --light-hover: #edf0f5;
+        --light-text: #151426;
+        --blue: #007497;
+        --white: #fff;
+        --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        
+    }
+    .light {
+        --bg-body: var(--light-body);
+        --bg-main: var(--light-main);
+        --bg-second: var(--light-second);
+        --color-hover: var(--light-hover);
+        --color-txt: var(--light-text);
+    }
+    
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    
+    html,
+    body {
+        height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: var(--font-family);
+        background-color: var(--bg-body);
+    }
+    .calendar {
+        height: max-content;
+        width: max-content;
+        background-color: var(--bg-main);
+        border-radius: 30px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .light .calendar {
+        box-shadow: var(--shadow);
+    }
+    
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 25px;
+        font-weight: 600;
+        color: var(--color-txt);
+        padding: 10px;
+    }
+    
+    .calendar-body {
+        padding: 10px;
+    }
+    
+    .calendar-week-day {
+        height: 50px;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        font-weight: 600;
+    }
+    
+    .calendar-week-day div {
+        display: grid;
+        place-items: center;
+        color: var(--bg-second);
+    }
+    
+    .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        color: var(--color-txt);
+    }
+    
+    .calendar-days div {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        position: relative;
+        cursor: pointer;
+        animation: to-top 1s forwards;
+    }
+    
+    .calendar-days div span {
+        position: absolute;
+    }
+    
+    .calendar-days div:hover span {
+        transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+    }
+    
+    .calendar-days div span:nth-child(1),
+    .calendar-days div span:nth-child(3) {
+        width: 2px;
+        height: 0;
+        background-color: var(--color-txt);
+    }
+    
+    .calendar-days div:hover span:nth-child(1),
+    .calendar-days div:hover span:nth-child(3) {
+        height: 100%;
+    }
+    
+    .calendar-days div span:nth-child(1) {
+        bottom: 0;
+        left: 0;
+    }
+    
+    .calendar-days div span:nth-child(3) {
+        top: 0;
+        right: 0;
+    }
+    
+    .calendar-days div span:nth-child(2),
+    .calendar-days div span:nth-child(4) {
+        width: 0;
+        height: 2px;
+        background-color: var(--color-txt);
+    }
+    
+    .calendar-days div:hover span:nth-child(2),
+    .calendar-days div:hover span:nth-child(4) {
+        width: 100%;
+    }
+    
+    .calendar-days div span:nth-child(2) {
+        top: 0;
+        left: 0;
+    }
+    
+    .calendar-days div span:nth-child(4) {
+        bottom: 0;
+        right: 0;
+    }
+    
+    .calendar-days div:hover span:nth-child(2) {
+        transition-delay: 0.2s;
+    }
+    
+    .calendar-days div:hover span:nth-child(3) {
+        transition-delay: 0.4s;
+    }
+    
+    .calendar-days div:hover span:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+    
+    .calendar-days div.curr-date,
+    .calendar-days div.curr-date:hover {
+        background-color: var(--blue);
+        color: var(--white);
+        border-radius: 50%;
+    }
+    
+    .calendar-days div.curr-date span {
+        display: none;
+    }
+    
+    .month-picker {
+        padding: 5px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    .month-picker:hover {
+        background-color: var(--color-hover);
+    }
+    
+    .year-picker {
+        display: flex;
+        align-items: center;
+    }
+    
+    .year-change {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        margin: 0 10px;
+        cursor: pointer;
+    }
+    
+    .year-change:hover {
+        background-color: var(--color-hover);
+    }
+    
+    .calendar-footer {
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+  
+    
+    .month-list {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: var(--bg-main);
+        padding: 20px;
+        grid-template-columns: repeat(3, auto);
+        gap: 5px;
+        display: grid;
+        transform: scale(1.5);
+        visibility: hidden;
+        pointer-events: none;
+    }
+    
+    .month-list.show {
+        transform: scale(1);
+        visibility: visible;
+        pointer-events: visible;
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .month-list > div {
+        display: grid;
+        place-items: center;
+    }
+    
+    .month-list > div > div {
+        width: 100%;
+        padding: 5px 20px;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        color: var(--color-txt);
+    }
+    
+    .month-list > div > div:hover {
+        background-color: var(--color-hover);
+    }
+     
+    .pagi{
+                margin-top: 30px;
+                margin-bottom: 20px;
+                color: black;
+                font-size: 15px;
+                text-align: center;
+            }
+            .page-link{
+                text-decoration: none;
+                color: black;
+                font-size: 20px;
+                display: inline;
+               
+            }
+            .page{
+                text-decoration: none;
+                border: 2px solid rgb(255, 254, 254);
+                background-color: rgb(248, 246, 246);
+                color: rgb(12, 10, 10);
+                margin:10px;
+                font-size: 20px;
+                padding: 5px;
+                border-radius: 3px;
+            }
+           .test{
+            color: white;
+           }
+          </style>
+
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <!-- Sidebar Trigger Start -->
+    <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><span class="navbar-toggler-icon"></span></button>
+    <!-- Sidebar Trigger End -->
+    <a class="navbar-brand fw-bold me-auto" href="#">DASHBOARD</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <form class="d-flex ms-auto">
+          <div class="input-group my-3 my-lg-0">
+           
+                <input type="text" list="names" value="{{val_1.st}}" name="searchname" class="form-control-1" placeholder="Select Name"> 
+                <button type="submit" class="btn-1 ms-2">Search</button> 
+                <datalist id="names">
+                    {% for d in data_1%}
+                    <option value={{d.name}}>
+                        {% endfor %}
+                </datalist>  
+            
+            </div>
+      </form>
+      <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-square"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" onclick="tableToCSV()">Export</a></li>
+              <li><a class="dropdown-item" href="{% url 'employee_login' %}">Logout</a></li>
+             
+
+            </ul>
+          </li>
+        </ul>
+    </div>
+  </div>
+</nav>             
+<!-- Navbar End -->
+
+<!-- Sidebar Start -->
+<div class="offcanvas offcanvas-start bg-dark text-white side-bar" data-bs-scroll="true" tabindex="-1" id="offcanvas" aria-labelledby="offcanvas">
+  <div class="offcanvas-body p-0">
+    <nav class="navbar-dark">
+      <ul class="navbar-nav">
+        <li>
+          <div class="text-muted small fw-bold text-uppercase px-3">Core</div>
+        </li>
+        <li>
+          <a href="{% url 'dashboard' %}"class="nav-link px-3 active">
+            <span class="me-2">
+              <i class="bi bi-wrench-adjustable-circle"></i>
+            </span>
+            <span class="fw-bold">Dashboard</span>
+          </a>
+        </li>
+        <li class="my-4">
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <div class="text-muted small fw-bold text-uppercase px-3">Interface</div>
+        </li>
+        <li>
+          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <span class="me-2"><i class="bi bi-layout-text-window-reverse"></i></span>
+            <span class="fw-bold">Layouts</span>
+            <span class="right-icon ms-auto">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+          </a>
+          <div class="collapse" id="collapseExample">
+            <div>
+           
+            
+
+              <ul class="navbar-nav ps-3">
+                <!-- <li>
+                  <a href="{% url 'dashboard' %}" class="nav-link px-3">
+                    <span class="me-2"><i class="bi bi-layout-text-window-reverse"></i></span>
+            <span class="fw-bold">All Data</span>
+                  </a>                  
+                </li> -->
+              </ul>
+            </div>
+          </div>
+          
+          <li>
+          <a href="{% url 'guidelines' %}" class="nav-link px-3">
+            <span class="me-2">
+              <i class="bi bi-archive"></i>
+            </span>
+            <span class="fw-bold">Guidelines</span>
+          </a>
+        </li>
+        <li class="my-4">
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <div class="text-muted small fw-bold text-uppercase px-3">Addons</div>
+        </li>
+        <li>
+          <a href="#" class="nav-link px-3">
+            <span class="me-2">
+              <i class="bi bi-activity"></i>
+            </span>
+            <span class="fw-bold">Activity</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'newuser' %}" class="nav-link px-3">
+            <span class="me-2">
+              <i class="bi bi-clipboard2-data"></i>
+            </span>
+            <span class="fw-bold">Manage Users</span>
+          </a>
+        </li>
+        
+        <li class="my-4">
+          <hr class="dropdown-divider">
+        </li>
+        <div class="custom-control custom-switch px-3">
+          <label class="custom-control-label" for="darkSwitch">
+          <span class="fw-bold">
+            <i class="bi bi-moon me-2"></i>
+            Dark Mode</span>
+          </label>
+          <input type="checkbox" class="custom-control-input checkbox ms-auto" id="darkSwitch">
+        </div>
+        <li class="my-4">
+          <hr class="dropdown-divider">
+        </li>
+        
+      </li>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<!-- Sidebar End -->
+
+<!-- Main Content Start -->
+<body class="light"></body>
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 fw-bold fs-3">Dashboard</div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-3 mb-3">
+        <div class="calendar">
+            <div class="calendar-header">
+                <span class="month-picker" id="month-picker">April</span>
+                <div class="year-picker">
+                    <span class="year-change" id="prev-year">
+                        <pre></pre>
+                    </span>
+                    <span id="year">2022</span>
+                    <span class="year-change" id="next-year">
+                        <pre>></pre>
+                    </span>
+                </div>
+            </div>
+            <div class="calendar-body">
+                <div class="calendar-week-day">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div class="calendar-days"></div>
+            </div>
+           
+            <div class="month-list"></div>
+        </div>
+        <script src="static/js/app.js"></script>
+   
+    
+      </div>
+     
+     
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="card-chart">
+          <div class="card-header">Charts</div>
+          <div class="card-body">
+            <canvas class="chart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-chart">
+          <div class="card-header">Charts</div>
+          <div class="card-body">
+            <canvas class="chart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    
+    <br>
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <div class="card-table">
+          <div class="card-header">
+            Datatables
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="example" class="table data-table" style="width:100%">
+                <thead>
+                    <tr>
+                      <th scope="col">Employee Id</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Check-In</th>
+                      <th scope="col">Check-Out</th>
+                      <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                        
+                     
+                    </tr>
+                  </thead>
+                      {% for d in data_1 %}
+                      <tbody>
+                          <tr>
+                              <td>{{ d.emp_id }}</td>
+                              <td>{{ d.name }}</td>
+                              <td>{{ d.date|date:'y-m-d'}}</td>
+                              <td>{{ d.check_in}}</td>
+                              <td>{{ d.check_out}}</td>
+                              <td> <button class="btn-2"><a  class="link" href="/edit?id={{d.emp_id}}">Edit</a></button>
+                              </td>
+                              <td> <button class="btn-2"><a class="link" href="{% url 'delete' d.pk %}">Delete</a></button></td>
+                              
+                            
+                          </tr>
+                         
+
+                      </tbody>
+                      {% endfor %}
+            </table>
+            </div>
+            <div class="pagi">
+              <span class="step-links">
+                  {% if data_1.has_previous %}
+                      <a class="page" href="?page={{ data_1.previous_page_number }}">Previous</a>
+                  {% else %}
+                      <a class="page" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                  {% endif %}
+                  {% if data_1.number|add:'-4' > 1 %}
+                     <a class="page-link" href="?page={{ m.number|add:'-5' }}">&hellip;</a>
+                  {% endif %}
+                  {% for j in data_1.paginator.page_range %}
+                      {% if data_1.number == j %}
+                        <span class="page-link">
+                          {{ j }}
+                        </span>
+                      {% elif j > data_1.number|add:'-5' and j < data_1.number|add:'5' %}
+                           <a class="page-link" href="?page={{ j }}">{{ j }}</a>
+                      {% endif %}
+                  {% endfor %}
+                  {% if data_1.paginator.num_pages > data_1.number|add:'4' %}
+                     <a class="page-link" href="?page={{ m.number|add:'5' }}">&hellip;</a>
+                  {% endif %}
+                      {% if data_1.has_next %}
+                      <a class="page" href="?page={{ data_1.next_page_number }}">Next</a>
+                  {% else %}
+                      <a class="page" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                  {% endif %}
+          </span>
+          </span>
+          </div>    
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+</main>
+<!-- Main Content End -->
+
+<!-- Scripts Start -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+<script src="static/js/script.js"></script>
+<script src="static/js/dark-mode-switch.min.js"></script>
+<script src="static/js/dark-mode-switch.js"></script>
+<!-- Scripts End -->
+<script>
+
+    function tableToCSV() {
+            var csv_data = [];
+            var rows = document.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+                var cols = rows[i].querySelectorAll('td,th');
+                var csvrow = [];
+                for (var j = 0; j < cols.length-2; j++) {
+                    csvrow.push(cols[j].innerHTML);
+                }
+                csv_data.push(csvrow.join(","));
+            }
+            csv_data = csv_data.join('\n');
+            downloadCSVFile(csv_data);
+        }
+        function downloadCSVFile(csv_data) {
+            CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+            var temp_link = document.createElement('a');
+            temp_link.download = "data.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+            temp_link.click();
+            document.body.removeChild(temp_link);
+        }
+
+
+
+        </script>
+</body>
+</html>

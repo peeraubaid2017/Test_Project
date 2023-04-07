@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Employee Details</title>
+{% endblock title %}
+
+{% block content %}
+<style>
+              .gradient-custom {
+/* fallback for old browsers */
+background: #e8a0bf;
+
+/* Chrome 10-25, Safari 5.1-6 */
+/* background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)); */
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+/* background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)) */
+}
+h1{
+                color: green;
+                text-align: center;
+                /* padding-top: 20px; */
+            }
+            table{
+                background-color: #ba90c6;
+            }
+</style>
+<div class=" gradient-custom">
+    <h1>Employee Details</h1>
+<button class="btn-3"><a class="link" href="{% url 'employee_login' %}">Log Out</a></button><br><br>
+<button class="btn-3"><a class="link" href="{% url 'newuser' %}">Signup Users</a></button><br><br>
+<form action="" method="get">
+    <div class="row">
+    <div class="col-4 ">
+        <input type="text" list="names" value="{{val_1.st}}" name="searchname" class="form-control-1" placeholder="Select Name"> 
+        <button type="submit" class="btn-1 ms-2">Search</button> 
+        <datalist id="names">
+            {% for d in data_1%}
+            <option value={{d.name}}>
+                {% endfor %}
+        </datalist>  
+    </div>
+    <div class="col-8 con1">
+        <button class="btn-1"><a class="link" href="{% url 'details' %}">All Data</a></button>
+        <button class="btn-1 ms-2" onclick="tableToCSV()">Export Data</button><br><br>
+    </div>
+</div>
+        <div class="col-8">
+            <label for="From" class="form-label-1">From:</label>
+            <input type="date"  name="fromdate" class="form-control-2">
+            <label for="To" class="form-label-2">To:</label>
+            <input type="date" class="form-control-2"  name="to" >
+            <button type="submit" class="btn-1 ms-2">Search</button>
+        </div>
+</div>
+</form>
+
+<div class="container_1">
+    <table class="table table-bordered" border="5px">
+    <thead>
+      <tr>
+        <th scope="col">Employee Id</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Check-In</th>
+        <th scope="col">Check-Out</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+        {% for d in data_1 %}
+        <tbody>
+            <tr>
+                <td>{{ d.emp_id }}</td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.date|date:'y-m-d'}}</td>
+                <td>{{ d.check_in}}</td>
+                <td>{{ d.check_out}}</td>
+                <td> <button class="btn-2"><a  class="link" href="/edit?id={{d.emp_id}}">Edit</a></button>
+                </td>
+                <td> <button class="btn-2"><a class="link" href="{% url 'delete' d.pk %}">Delete</a></button></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+  </table>
+</div>
+<div class="pagi">
+    <span class="step-links">
+        {% if data_1.has_previous %}
+            <a class="page" href="?page={{ data_1.previous_page_number }}">Previous</a>
+        {% else %}
+            <a class="page" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+        {% endif %}
+        {% if data_1.number|add:'-4' > 1 %}
+           <a class="page-link" href="?page={{ m.number|add:'-5' }}">&hellip;</a>
+        {% endif %}
+        {% for j in data_1.paginator.page_range %}
+            {% if data_1.number == j %}
+              <span class="page-link">
+                {{ j }}
+              </span>
+            {% elif j > data_1.number|add:'-5' and j < data_1.number|add:'5' %}
+                 <a class="page-link" href="?page={{ j }}">{{ j }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if data_1.paginator.num_pages > data_1.number|add:'4' %}
+           <a class="page-link" href="?page={{ m.number|add:'5' }}">&hellip;</a>
+        {% endif %}
+            {% if data_1.has_next %}
+            <a class="page" href="?page={{ data_1.next_page_number }}">Next</a>
+        {% else %}
+            <a class="page" href="#" tabindex="-1" aria-disabled="True">Next</a>
+        {% endif %}
+</span>
+</span>
+</div>    
+</div>
+<script>
+
+function tableToCSV() {
+        var csv_data = [];
+        var rows = document.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var cols = rows[i].querySelectorAll('td,th');
+            var csvrow = [];
+            for (var j = 0; j < cols.length-2; j++) {
+                csvrow.push(cols[j].innerHTML);
+            }
+            csv_data.push(csvrow.join(","));
+        }
+        csv_data = csv_data.join('\n');
+        downloadCSVFile(csv_data);
+    }
+    function downloadCSVFile(csv_data) {
+        CSVFile = new Blob([csv_data], {
+            type: "text/csv"
+        });
+        var temp_link = document.createElement('a');
+        temp_link.download = "data.csv";
+        var url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+        temp_link.click();
+        document.body.removeChild(temp_link);
+    }
+    </script>
+{% endblock %}
