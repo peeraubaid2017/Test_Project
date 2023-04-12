@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'Employee_Data.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'database_db',
-        'USER': 'postgres',
-        'PASSWORD':'King#123',
-        'HOST':'localhost',
-        'PORT':'5432',
+        'NAME': 'employee_attendance',
+        'USER': 'employee',
+        'PASSWORD':'6RB7bCEsscw0rd!sW*',
+        'HOST':'10.8.14.150',
+        'PORT':'5490',
     }
 }
 
@@ -134,3 +134,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = "Employee.CustomUser"

@@ -62,7 +62,7 @@
         font-family: var(--font-family);
         background-color: var(--bg-body);
     }
-    .calendar {
+    /* .calendar {
         height: max-content;
         width: max-content;
         background-color: var(--bg-main);
@@ -281,7 +281,7 @@
     
     .month-list > div > div:hover {
         background-color: var(--color-hover);
-    }
+    } */
      
     .pagi{
                 margin-top: 30px;
@@ -310,7 +310,7 @@
            .test{
             color: white;
            }
-           .switch {
+           /* .switch {
     position: relative;
     display: inline-block;
     width: 45px;
@@ -361,13 +361,15 @@
   }
   
   /* Rounded sliders */
-  .slider.round {
+  /* .slider.round {
     border-radius: 34px;
   }
   
   .slider.round:before {
     border-radius: 50%;
-  }</style>
+  } */ 
+  </style>
+
 
 </head>
 <body>
@@ -378,7 +380,7 @@
     <!-- Sidebar Trigger Start -->
     <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><span class="navbar-toggler-icon"></span></button>
     <!-- Sidebar Trigger End -->
-    <a class="navbar-brand fw-bold me-auto" href="#">DASHBOARD</a>
+    <h1 class="navbar-brand fw-bold me-auto">DASHBOARD</h1>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -388,12 +390,12 @@
       <form class="d-flex ms-auto">
           <div class="input-group my-3 my-lg-0">
            
-                <input type="text" list="names" value="{{val_1.st}}" name="searchname" class="form-control-1" placeholder="Select Name"> 
-                <button type="submit" class="btn-1 ms-2">Search</button> 
-                <datalist id="names">
-                    {% for d in data_1%}
-                    <option value={{d.name}}>
-                        {% endfor %}
+                <!-- <input type="text" list="names" value="{{val_1.st}}" name="searchname" class="form-control-1" placeholder="Select Name">  -->
+                <!-- <button type="submit" class="btn-1 ms-2">Search</button>  -->
+                <!-- <datalist id="names"> -->
+                    <!-- {% for d in data_1%} -->
+                    <!-- <option value={{d.name}}> -->
+                        <!-- {% endfor %} -->
                 </datalist>  
             
             </div>
@@ -404,7 +406,7 @@
               <i class="bi bi-person-square"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" onclick="tableToCSV()">Export</a></li>
+               
               <li><a class="dropdown-item" href="{% url 'employee_login' %}">Logout</a></li>
              
 
@@ -421,9 +423,7 @@
   <div class="offcanvas-body p-0">
     <nav class="navbar-dark">
       <ul class="navbar-nav">
-        <li>
-          <div class="text-muted small fw-bold text-uppercase px-3">Core</div>
-        </li>
+       
         <li>
           <a href="{% url 'dashboard' %}"class="nav-link px-3 active">
             <span class="me-2">
@@ -476,14 +476,7 @@
         <li>
           <div class="text-muted small fw-bold text-uppercase px-3">Addons</div>
         </li>
-        <li>
-          <a href="#" class="nav-link px-3">
-            <span class="me-2">
-              <i class="bi bi-activity"></i>
-            </span>
-            <span class="fw-bold">Activity</span>
-          </a>
-        </li>
+        
         <li>
           <a href="{% url 'newuser' %}" class="nav-link px-3">
             <span class="me-2">
@@ -576,26 +569,26 @@
               <table id="example" class="table data-table" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">Employee Id</th>
+                        <!-- <th scope="col">Employee Id</th>
                         <th scope="col">User Name</th>
-                        <th scope="col">Name</th>
+                        <th scope="col">Name</th> -->
                         <th scope="col">Email</th>
-                        <th scope="col">Action</th>
+                        <!-- <th scope="col">Action</th> -->
                       </tr>
                     </thead>
                         {% for e in data_2 %}
                         <tbody>
                             <tr>
-                                <td>{{ e.id }}</td>
+                                <!-- <td>{{ e.id }}</td>
                                 <td>{{ e.username }}</td>
-                                <td>{{ e.name}}</td>
+                                <td>{{ e.name}}</td> -->
                                 <td>{{ e.email}}</td>
-                                <td>
+                                <!-- <td>
                                     <label class="switch">
                                     <input type="checkbox">
                                     <span class="slider round"></span>
                                     </label>
-                                   </td>
+                                   </td> -->
                                 
                             </tr>
                          
